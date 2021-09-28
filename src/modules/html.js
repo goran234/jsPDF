@@ -10,6 +10,9 @@
 import { jsPDF } from "../jspdf.js";
 import { normalizeFontFace } from "../libs/fontFace.js";
 import { globalObject } from "../libs/globalObject.js";
+import es6promise from 'es6-promise';
+
+const Promise = es6promise.Promise;
 
 /**
  * jsPDF html PlugIn

@@ -1,7 +1,7 @@
 /** @license
  *
  * jsPDF - PDF Document creation from JavaScript
- * Version 2.4.0 Built on 2021-09-14T10:30:30.230Z
+ * Version 2.4.0 Built on 2021-09-28T12:34:17.145Z
  *                      CommitID 00000000
  *
  * Copyright (c) 2010-2021 James Hall <james@parall.ax>, https://github.com/MrRio/jsPDF
@@ -50,6 +50,7 @@
 
 import _typeof from '@babel/runtime/helpers/typeof';
 import { zlibSync, unzlibSync } from 'fflate';
+import es6promise from 'es6-promise';
 
 var globalObject = function () {
   return "undefined" !== typeof window ? window : "undefined" !== typeof global ? global : "undefined" !== typeof self ? self : this;
@@ -14728,6 +14729,7 @@ function parseFontFamily(input) {
   }
 })(jsPDF.API);
 
+var Promise$1 = es6promise.Promise;
 /**
  * jsPDF html PlugIn
  *
@@ -14740,12 +14742,12 @@ function parseFontFamily(input) {
   function loadHtml2Canvas() {
     return function () {
       if (globalObject["html2canvas"]) {
-        return Promise.resolve(globalObject["html2canvas"]);
+        return Promise$1.resolve(globalObject["html2canvas"]);
       }
 
       return import('html2canvas');
     }().catch(function (e) {
-      return Promise.reject(new Error("Could not load html2canvas: " + e));
+      return Promise$1.reject(new Error("Could not load html2canvas: " + e));
     }).then(function (html2canvas) {
       return html2canvas.default ? html2canvas.default : html2canvas;
     });
@@ -14754,12 +14756,12 @@ function parseFontFamily(input) {
   function loadDomPurify() {
     return function () {
       if (globalObject["DOMPurify"]) {
-        return Promise.resolve(globalObject["DOMPurify"]);
+        return Promise$1.resolve(globalObject["DOMPurify"]);
       }
 
       return import('dompurify');
     }().catch(function (e) {
-      return Promise.reject(new Error("Could not load dompurify: " + e));
+      return Promise$1.reject(new Error("Could not load dompurify: " + e));
     }).then(function (dompurify) {
       return dompurify.default ? dompurify.default : dompurify;
     });
@@ -14842,8 +14844,8 @@ function parseFontFamily(input) {
 
   var Worker = function Worker(opt) {
     // Create the root parent for the proto chain, and the starting Worker.
-    var root = Object.assign(Worker.convert(Promise.resolve()), JSON.parse(JSON.stringify(Worker.template)));
-    var self = Worker.convert(Promise.resolve(), root); // Set progress, optional settings, and return.
+    var root = Object.assign(Worker.convert(Promise$1.resolve()), JSON.parse(JSON.stringify(Worker.template)));
+    var self = Worker.convert(Promise$1.resolve(), root); // Set progress, optional settings, and return.
 
     self = self.setProgress(1, Worker, 1, [Worker]);
     self = self.set(opt);
@@ -14851,7 +14853,7 @@ function parseFontFamily(input) {
   }; // Boilerplate for subclassing Promise.
 
 
-  Worker.prototype = Object.create(Promise.prototype);
+  Worker.prototype = Object.create(Promise$1.prototype);
   Worker.prototype.constructor = Worker; // Converts/casts promises into Workers.
 
   Worker.convert = function convert(promise, inherit) {
@@ -15334,7 +15336,7 @@ function parseFontFamily(input) {
     return this.thenCore(onFulfilled, onRejected, function then_main(onFulfilled, onRejected) {
       // Update progress while queuing, calling, and resolving `then`.
       self.updateProgress(null, null, 1, [onFulfilled]);
-      return Promise.prototype.then.call(this, function then_pre(val) {
+      return Promise$1.prototype.then.call(this, function then_pre(val) {
         self.updateProgress(null, onFulfilled);
         return val;
       }).then(onFulfilled, onRejected).then(function then_post(val) {
@@ -15346,7 +15348,7 @@ function parseFontFamily(input) {
 
   Worker.prototype.thenCore = function thenCore(onFulfilled, onRejected, thenBase) {
     // Handle optional thenBase parameter.
-    thenBase = thenBase || Promise.prototype.then; // Wrap `this` for encapsulation and bind it to the promise handlers.
+    thenBase = thenBase || Promise$1.prototype.then; // Wrap `this` for encapsulation and bind it to the promise handlers.
 
     var self = this;
 
@@ -15359,8 +15361,8 @@ function parseFontFamily(input) {
     } // Cast self into a Promise to avoid polyfills recursively defining `then`.
 
 
-    var isNative = Promise.toString().indexOf("[native code]") !== -1 && Promise.name === "Promise";
-    var selfPromise = isNative ? self : Worker.convert(Object.assign({}, self), Promise.prototype); // Return the promise, after casting it into a Worker and preserving props.
+    var isNative = Promise$1.toString().indexOf("[native code]") !== -1 && Promise$1.name === "Promise";
+    var selfPromise = isNative ? self : Worker.convert(Object.assign({}, self), Promise$1.prototype); // Return the promise, after casting it into a Worker and preserving props.
 
     var returnVal = thenBase.call(selfPromise, onFulfilled, onRejected);
     return Worker.convert(returnVal, self.__proto__);
@@ -15368,7 +15370,7 @@ function parseFontFamily(input) {
 
   Worker.prototype.thenExternal = function thenExternal(onFulfilled, onRejected) {
     // Call `then` and return a standard promise (exits the Worker chain).
-    return Promise.prototype.then.call(this, onFulfilled, onRejected);
+    return Promise$1.prototype.then.call(this, onFulfilled, onRejected);
   };
 
   Worker.prototype.thenList = function thenList(fns) {
@@ -15386,13 +15388,13 @@ function parseFontFamily(input) {
       onRejected = onRejected.bind(this);
     }
 
-    var returnVal = Promise.prototype["catch"].call(this, onRejected);
+    var returnVal = Promise$1.prototype["catch"].call(this, onRejected);
     return Worker.convert(returnVal, this);
   };
 
   Worker.prototype.catchExternal = function catchExternal(onRejected) {
     // Call `catch` and return a standard promise (exits the Worker chain).
-    return Promise.prototype["catch"].call(this, onRejected);
+    return Promise$1.prototype["catch"].call(this, onRejected);
   };
 
   Worker.prototype.error = function error(msg) {
